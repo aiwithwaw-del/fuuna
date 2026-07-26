@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'app_colors.dart';
+import 'package:fuuna/config/theme/app_colors.dart';
 
 class AppTheme {
   AppTheme._();
-  
+
   static ThemeData get lightTheme {
     return ThemeData(
       useMaterial3: true,
@@ -13,12 +13,10 @@ class AppTheme {
         primary: AppColors.primary,
         secondary: AppColors.secondary,
         surface: AppColors.surface,
-        background: AppColors.background,
         error: AppColors.error,
         onPrimary: Colors.white,
         onSecondary: Colors.white,
         onSurface: AppColors.textPrimary,
-        onBackground: AppColors.textPrimary,
       ),
       scaffoldBackgroundColor: AppColors.background,
       textTheme: GoogleFonts.interTextTheme().apply(
@@ -104,9 +102,6 @@ class AppTheme {
       ),
     );
   }
-  
-  static ThemeData get darkTheme {
-    // TODO: Implement dark theme
-    return lightTheme;
-  }
+
+  static ThemeData get darkTheme => lightTheme;
 }
