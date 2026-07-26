@@ -1,45 +1,40 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../data/datasources/auth_remote_datasource.dart';
-import '../../data/repositories/auth_repository_impl.dart';
-import '../../domain/entities/user_entity.dart';
-import '../../domain/repositories/auth_repository.dart';
+import 'package:fuuna/features/auth/data/datasources/auth_remote_datasource.dart';
+import 'package:fuuna/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:fuuna/features/auth/domain/entities/user_entity.dart';
+import 'package:fuuna/features/auth/domain/repositories/auth_repository.dart';
 
-part 'auth_provider.g.dart';
-
-// Repository Provider
-@Riverpod(keepAlive: true)
-AuthRepository authRepository(Ref ref) {
+final authRepositoryProvider = Provider<AuthRepository>((ref) {
   return AuthRepositoryImpl(
     remoteDataSource: AuthRemoteDataSource(),
   );
-}
+});
 
-// Auth State Provider
-@Riverpod(keepAlive: true)
-Stream<UserEntity?> authState(Ref ref) {
+final authStateProvider = StreamProvider<UserEntity?>((ref) {
   final repository = ref.watch(authRepositoryProvider);
   return repository.authStateChanges;
-}
+});
 
-// Current User Provider
-@Riverpod(keepAlive: true)
-UserEntity? currentUser(Ref ref) {
+final currentUserProvider = Provider<UserEntity?>((ref) {
   final authState = ref.watch(authStateProvider);
   return authState.valueOrNull;
-}
+});
 
-// Auth Notifier
-@riverpod
-class AuthNotifier extends _$AuthNotifier {
-  @override
-  AsyncValue<void> build() => const AsyncValue.data(null);
-  
+final authNotifierProvider =
+    StateNotifierProvider<AuthNotifier, AsyncValue<void>>((ref) {
+  return AuthNotifier(ref);
+});
+
+class AuthNotifier extends StateNotifier<AsyncValue<void>> {
+  AuthNotifier(this.ref) : super(const AsyncValue.data(null));
+
+  final Ref ref;
+
   AuthRepository get _repository => ref.read(authRepositoryProvider);
-  
+
   Future<void> login(String email, String password) async {
     state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
+    try {
       final result = await _repository.loginWithEmail(
         email: email,
         password: password,
@@ -48,47 +43,11 @@ class AuthNotifier extends _$AuthNotifier {
         (failure) => throw failure,
         (user) => null,
       );
-    });
+      state = const AsyncValue.data(null);
+    } catch (e, st) {
+      state = AsyncValue.error(e, st);
+    }
   }
-  
+
   Future<void> register(String email, String password, String displayName) async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
-      final result = await _repository.registerWithEmail(
-        email: email,
-        password: password,
-        displayName: displayName,
-      );
-      result.fold(
-        (failure) => throw failure,
-        (user) => null,
-      );
-    });
-  }
-  
-  Future<void> signInWithGoogle() async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
-      final result = await _repository.signInWithGoogle();
-      result.fold(
-        (failure) => throw failure,
-        (user) => null,
-      );
-    });
-  }
-  
-  Future<void> forgotPassword(String email) async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
-      final result = await _repository.sendPasswordResetEmail(email);
-      result.fold(
-        (failure) => throw failure,
-        (_) => null,
-      );
-    });
-  }
-  
-  Future<void> signOut() async {
-    await _repository.signOut();
-  }
-}
+    state = const
