@@ -42,6 +42,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     
     ref.listen(authNotifierProvider, (previous, next) {
       next.whenOrNull(
+        data: (_) {
+          if (previous is AsyncLoading) {
+            context.go(RouteNames.home);
+          }
+        },
         error: (error, stack) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
