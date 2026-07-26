@@ -8,7 +8,7 @@ on:
 
 jobs:
   analyze:
-    name: Analyze & Test
+    name: Analyze & Testa
     runs-on: ubuntu-latest
     
     steps:
