@@ -1,18 +1,18 @@
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../../../../core/errors/failures.dart';
-import '../../domain/entities/user_entity.dart';
-import '../../domain/repositories/auth_repository.dart';
-import '../datasources/auth_remote_datasource.dart';
+import 'package:fuuna/core/errors/failures.dart';
+import 'package:fuuna/features/auth/domain/entities/user_entity.dart';
+import 'package:fuuna/features/auth/domain/repositories/auth_repository.dart';
+import 'package:fuuna/features/auth/data/datasources/auth_remote_datasource.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource remoteDataSource;
-  
+
   AuthRepositoryImpl({required this.remoteDataSource});
-  
+
   @override
   Stream<UserEntity?> get authStateChanges => remoteDataSource.authStateChanges;
-  
+
   @override
   Future<Either<Failure, UserEntity>> loginWithEmail({
     required String email,
@@ -30,7 +30,7 @@ class AuthRepositoryImpl implements AuthRepository {
       return Left(ServerFailure(message: e.toString()));
     }
   }
-  
+
   @override
   Future<Either<Failure, UserEntity>> registerWithEmail({
     required String email,
@@ -50,7 +50,7 @@ class AuthRepositoryImpl implements AuthRepository {
       return Left(ServerFailure(message: e.toString()));
     }
   }
-  
+
   @override
   Future<Either<Failure, UserEntity>> signInWithGoogle() async {
     try {
@@ -60,7 +60,7 @@ class AuthRepositoryImpl implements AuthRepository {
       return Left(AuthFailure(message: e.toString()));
     }
   }
-  
+
   @override
   Future<Either<Failure, UserEntity>> signInWithApple() async {
     try {
@@ -70,7 +70,7 @@ class AuthRepositoryImpl implements AuthRepository {
       return Left(AuthFailure(message: e.toString()));
     }
   }
-  
+
   @override
   Future<Either<Failure, void>> sendEmailVerification() async {
     try {
@@ -80,7 +80,7 @@ class AuthRepositoryImpl implements AuthRepository {
       return Left(ServerFailure(message: e.toString()));
     }
   }
-  
+
   @override
   Future<Either<Failure, void>> sendPasswordResetEmail(String email) async {
     try {
@@ -92,13 +92,12 @@ class AuthRepositoryImpl implements AuthRepository {
       return Left(ServerFailure(message: e.toString()));
     }
   }
-  
+
   @override
   Future<Either<Failure, void>> verifyPhoneNumber(String phoneNumber) async {
-    // TODO: Implement phone verification
     return const Right(null);
   }
-  
+
   @override
   Future<Either<Failure, void>> updateProfile({
     String? displayName,
@@ -114,10 +113,10 @@ class AuthRepositoryImpl implements AuthRepository {
       return Left(ServerFailure(message: e.toString()));
     }
   }
-  
+
   @override
   Future<void> signOut() => remoteDataSource.signOut();
-  
+
   String _mapAuthError(String code) {
     switch (code) {
       case 'user-not-found':
