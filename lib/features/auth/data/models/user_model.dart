@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../domain/entities/user_entity.dart';
+import 'package:fuuna/features/auth/domain/entities/user_entity.dart';
 
 class UserModel extends UserEntity {
   const UserModel({
@@ -40,8 +40,12 @@ class UserModel extends UserEntity {
       'phoneNumber': phoneNumber,
       'role': role.name,
       'isEmailVerified': isEmailVerified,
-      'createdAt': createdAt != null ? Timestamp.fromDate(createdAt!) : FieldValue.serverTimestamp(),
-      'updatedAt': updatedAt != null ? Timestamp.fromDate(updatedAt!) : FieldValue.serverTimestamp(),
+      'createdAt': createdAt != null
+          ? Timestamp.fromDate(createdAt!)
+          : FieldValue.serverTimestamp(),
+      'updatedAt': updatedAt != null
+          ? Timestamp.fromDate(updatedAt!)
+          : FieldValue.serverTimestamp(),
     };
   }
 
