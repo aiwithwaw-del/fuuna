@@ -27,19 +27,16 @@ void main() {
     );
 
     test('should return UserEntity when login is successful', () async {
-      // arrange
       when(mockDataSource.loginWithEmail(
         email: anyNamed('email'),
         password: anyNamed('password'),
       )).thenAnswer((_) async => tUser);
 
-      // act
       final result = await repository.loginWithEmail(
         email: tEmail,
         password: tPassword,
       );
 
-      // assert
       expect(result, const Right(tUser));
       verify(mockDataSource.loginWithEmail(email: tEmail, password: tPassword));
     });
