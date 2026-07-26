@@ -12,26 +12,23 @@ class FirebaseService {
   static final FirebaseFirestore firestore = FirebaseFirestore.instance;
   static final FirebaseStorage storage = FirebaseStorage.instance;
   static final FirebaseMessaging messaging = FirebaseMessaging.instance;
-  
+
   static Future<void> initialize() async {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
-    
-    // Crashlytics
+
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
     PlatformDispatcher.instance.onError = (error, stack) {
       FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
       return true;
     };
-    
-    // Messaging
+
     await messaging.requestPermission(
       alert: true,
       badge: true,
       sound: true,
     );
-    
-    // Firestore offline persistence
+
     await firestore.enablePersistence();
   }
 }
