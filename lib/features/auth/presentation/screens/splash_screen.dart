@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:fuuna/config/routes/route_names.dart';
-import 'package:fuuna/features/auth/presentation/providers/auth_provider.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
@@ -39,20 +38,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
   Future<void> _navigate() async {
     await Future.delayed(const Duration(seconds: 2));
-    
     if (!mounted) return;
     
-    final authState = ref.read(authStateProvider);
-    
-    authState.whenData((user) {
-      if (user == null) {
-        context.go(RouteNames.onboarding);
-      } else if (!user.isEmailVerified) {
-        context.go(RouteNames.emailVerification);
-      } else {
-        context.go(RouteNames.home);
-      }
-    });
+    // New flow: always land on Home. Auth is gated per-feature.
+    context.go(RouteNames.home);
   }
 
   @override
