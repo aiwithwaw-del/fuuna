@@ -11,13 +11,9 @@ dependencies:
   flutter:
     sdk: flutter
   
-  # State Management
   flutter_riverpod: ^2.5.1
-  
-  # Navigation
   go_router: ^14.2.0
   
-  # Firebase
   firebase_core: ^3.1.1
   firebase_auth: ^5.1.1
   cloud_firestore: ^5.0.2
@@ -26,18 +22,15 @@ dependencies:
   firebase_analytics: ^11.0.1
   firebase_crashlytics: ^4.0.2
   
-  # Auth
   google_sign_in: ^6.2.1
   sign_in_with_apple: ^6.1.0
   
-  # Utils
   equatable: ^2.0.5
   dartz: ^0.10.1
   flutter_dotenv: ^5.1.0
   logger: ^2.3.0
   internet_connection_checker: ^1.0.0+1
   
-  # UI
   google_fonts: ^6.2.1
   flutter_svg: ^2.0.10+1
   cached_network_image: ^3.3.1
@@ -49,13 +42,6 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^4.0.0
-  mockito: ^5.4.4
 
 flutter:
   uses-material-design: true
-  
-  assets:
-    - .env
-    - assets/images/
-    - assets/icons/
-    - assets/fonts/
