@@ -22,8 +22,6 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    
     Widget buttonChild = isLoading
         ? const SizedBox(
             height: 20,
