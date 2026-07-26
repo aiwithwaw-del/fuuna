@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../config/routes/route_names.dart';
-import '../../../../core/widgets/custom_button.dart';
-import '../../../../core/widgets/custom_textfield.dart';
-import '../providers/auth_provider.dart';
-import '../widgets/social_login_buttons.dart';
+import 'package:fuuna/config/routes/route_names.dart';
+import 'package:fuuna/core/widgets/custom_button.dart';
+import 'package:fuuna/core/widgets/custom_textfield.dart';
+import 'package:fuuna/features/auth/presentation/providers/auth_provider.dart';
+import 'package:fuuna/features/auth/presentation/widgets/social_login_buttons.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
