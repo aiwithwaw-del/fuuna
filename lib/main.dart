@@ -5,7 +5,7 @@ import 'package:fuuna/app.dart';
 
 void main() async {
   await FirebaseService.initialize();
-
+  
   runApp(
     const ProviderScope(
       child: FuunaApp(),
